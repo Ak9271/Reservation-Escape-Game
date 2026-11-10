@@ -1,0 +1,10 @@
+RG1 : Une salle propose au moins une énigme, et chaque énigme appartient à exactement une salle.
+RG2 : Un joueur s'inscrit avec au plus un compte, et un compte appartient à exactement un joueur.   
+RG3 : Une équipe est composée d'au moins deux et d'au plus six joueurs.
+RG4 : Une réservation concerne exactement une salle et est effectuée par exactement une équipe.   
+RG5 : Un créneau horaire dans une salle donnée fait l'objet d'au plus une réservation confirmée.   
+RG6 : Une équipe peut réserver au moins une session ou n'en avoir encore aucune (facultatif).  
+RG7 : Durant une session, une équipe peut demander au moins zéro et au plus dix indices.   
+RG8 : L'association entre une équipe et un indice consommé porte toujours l'heure précise de demande et le temps de pénalité accordé (association porteuse de données).   
+RG9 : Une équipe peut déposer au plus un avis à l'issue de sa session, qui porte toujours une note de 1 à 5 et un commentaire (association porteuse de données).   
+RG10 : Une réservation possède toujours un statut (en attente, confirmée, annulée, terminée) et un montant total payé

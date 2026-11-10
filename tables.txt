@@ -1,0 +1,59 @@
+erDiagram
+    SALLE ||--|{ ENIGME : "contient (RG1)"
+    SALLE ||--o{ RESERVATION : "accueille (RG4, RG5)"
+    EQUIPE ||--o{ RESERVATION : "effectue (RG4, RG6)"
+    JOUEUR }|--|{ EQUIPE : "compose (RG3)"
+    INDICE ||--o{ INDICE_CONSOMME : "est sollicite"
+    RESERVATION ||--o{ INDICE_CONSOMME : "consomme (RG7, RG8)"
+    RESERVATION |o--o| AVIS : "donne lieu a (RG9)"
+
+    SALLE {
+        int id_salle PK "Identifiant technique"
+        string code_salle "Identifiant métier (ex: ROOM-AZTEC)"
+        string nom
+        int capacite_max
+    }
+
+    ENIGME {
+        int id_enigme PK
+        string titre
+        int difficulte
+    }
+
+    JOUEUR {
+        int id_joueur PK
+        string email UK "Identifiant métier (RG2)"
+        string nom
+        string telephone
+    }
+
+    EQUIPE {
+        int id_equipe PK
+        string nom_equipe
+    }
+
+    RESERVATION {
+        int id_reservation PK
+        string code_reservation UK "Identifiant métier (ex: RES-2026-X)"
+        datetime date_heure_debut
+        string statut "RG10"
+        decimal montant_paye "RG10"
+    }
+
+    INDICE {
+        int id_indice PK
+        string code_indice UK "Identifiant métier"
+        string description
+    }
+
+    INDICE_CONSOMME {
+        time heure_demande "RG8 (association porteuse)"
+        int penalite_minutes "RG8 (association porteuse)"
+    }
+
+    AVIS {
+        int id_avis PK
+        int note "RG9 (1 a 5)"
+        string commentaire "RG9"
+        datetime date_avis
+    }
