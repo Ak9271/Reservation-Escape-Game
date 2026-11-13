@@ -60,9 +60,9 @@ PostgreSQL offre la rigueur relationnelle indispensable pour respecter nos règl
 * **Normalisation (3NF retenue par défaut) :**  
   Toutes les entités de base (`JOUEUR`, `EQUIPE`, `SALLE`, `ENIGME`, `RESERVATION`) sont normalisées pour garantir zéro anomalie de mise à jour (ex. l'adresse email d'un joueur n'est stockée qu'à un seul endroit).
 * **Dénormalisation ciblée et justifiée :**  
-  Nous dénormalisons le champ `penalite_minutes` et le montant total dans la table `RESERVATION` :
-  * *Raison :* Le prix payé d'une session et les pénalités calculées au moment où la session s'achève doivent être figés historiquement, même si les tarifs de la salle ou les barèmes d'indices changent ultérieurement.
-  * *Gouvernance :* Ce n'est pas une simple copie vivante ; c'est un instantané métier scellé par transaction au moment de la validation de la réservation et de la clôture du chronomètre.
+  Nous scellons et dénormalisons le champ `montant_paye` dans la table `RESERVATION` et le champ `penalite_minutes` dans la table `INDICE_CONSOMME` :
+  * *Raison :* Le prix payé d'une session et les pénalités appliquées lors de la distribution d'un indice doivent être figés historiquement, même si les tarifs de la salle ou les barèmes d'indices changent ultérieurement.
+  * *Gouvernance :* Ce ne sont pas de simples copies vivantes ; ce sont des instantanés métier scellés par transaction au moment de la validation de la réservation et lors de la remise de l'indice.
 
 ---
 
