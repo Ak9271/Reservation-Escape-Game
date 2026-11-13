@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: escape-game-postgres
+    environment:
+      POSTGRES_USER: escape_game
+      POSTGRES_PASSWORD: escape_game
+      POSTGRES_DB: escape_game
+    ports:
+      - "5432:5432"
+    volumes:
+      - donnees_pg:/var/lib/postgresql/data
+      - ./modele:/modele:ro
+
+volumes:
+  donnees_pg:
