@@ -79,3 +79,4 @@ PostgreSQL offre la rigueur relationnelle indispensable pour respecter nos règl
 ### Ce qui nous ferait revoir notre décision :
 * Un pivot du produit vers une plateforme sociale de matching de joueurs ou un moteur de recommandation basé sur les affinités et l'historique complet des parcours : nous introduirions alors **Neo4j** en base secondaire.
 * L'ajout d'une télémétrie en direct des capteurs de la salle pendant le jeu : nous ajouterions un cache en mémoire (**Redis**) pour le live et une base time-series (**TimescaleDB** ou **Cassandra**) pour les métriques.
+

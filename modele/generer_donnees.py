@@ -117,3 +117,4 @@ def generer_script_sql():
 
 if __name__ == "__main__":
     generer_script_sql()
+

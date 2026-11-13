@@ -137,3 +137,4 @@ CREATE TRIGGER trg_verifier_limite_indices
 BEFORE INSERT ON indice_consomme
 FOR EACH ROW
 EXECUTE FUNCTION verifier_limite_indices();
+

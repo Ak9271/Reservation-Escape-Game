@@ -60,3 +60,4 @@ SELECT
 FROM salle s
 JOIN enigme en ON s.id_salle = en.id_salle
 ORDER BY s.nom, en.difficulte DESC;
+
