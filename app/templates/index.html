@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Escape Game - Gestion des Réservations</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 30px; background-color: #f7f9fc; color: #2d3748; }
+        h1, h2 { color: #1a202c; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { text-align: left; padding: 10px; border-bottom: 1px solid #e2e8f0; }
+        th { background: #edf2f7; }
+        form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px; box-sizing: border-box; }
+        button { grid-column: span 2; background-color: #3182ce; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        button:hover { background-color: #2b6cb0; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .badge-CONFIRMEE { background: #c6f6d5; color: #22543d; }
+        .badge-TERMINEE { background: #e2e8f0; color: #4a5568; }
+        .badge-EN_ATTENTE { background: #feebc8; color: #7b341e; }
+        .badge-ANNULEE { background: #fed7d7; color: #742a2a; }
+        .msg { padding: 10px; border-radius: 4px; background: #c6f6d5; color: #22543d; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <h1>Système de Gestion Escape Game</h1>
+    <p>Moteur connecté : <strong>{{ db_type }}</strong></p>
+
+    {% if message %}
+    <div class="msg">{{ message }}</div>
+    {% endif %}
+
+    <div class="grid-2">
+        <div class="card">
+            <h2>Salles disponibles</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Nom</th>
+                        <th>Capacité</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in salles %}
+                    <tr>
+                        <td>{{ s[1] }}</td>
+                        <td>{{ s[2] }}</td>
+                        <td>{{ s[3] }} joueurs max</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Nouvelle Réservation</h2>
+            <form action="/reserver" method="post">
+                <div>
+                    <label>Salle</label>
+                    <select name="id_salle" required>
+                        {% for s in salles %}
+                        <option value="{{ s[0] }}">{{ s[2] }} ({{ s[1] }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label>Équipe</label>
+                    <select name="id_equipe" required>
+                        {% for eq in equipes %}
+                        <option value="{{ eq[0] }}">{{ eq[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label>Date et Heure</label>
+                    <input type="datetime-local" name="date_heure_debut" required>
+                </div>
+                <div>
+                    <label>Montant payé (€)</label>
+                    <input type="number" step="0.01" name="montant_paye" value="120.00" required>
+                </div>
+                <button type="submit">Valider la réservation</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Réservations Enregistrées</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Salle</th>
+                    <th>Équipe</th>
+                    <th>Date et Heure</th>
+                    <th>Statut</th>
+                    <th>Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in reservations %}
+                <tr>
+                    <td><strong>{{ r[1] }}</strong></td>
+                    <td>{{ r[2] }}</td>
+                    <td>{{ r[3] }}</td>
+                    <td>{{ r[4] }}</td>
+                    <td><span class="badge badge-{{ r[5] }}">{{ r[5] }}</span></td>
+                    <td>{{ r[6] }} €</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grid-2">
+        <div class="card">
+            <h2>Derniers Avis Clients</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Session</th>
+                        <th>Note</th>
+                        <th>Commentaire</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in avis %}
+                    <tr>
+                        <td>{{ a[0] }}</td>
+                        <td>{{ a[1] }} / 5</td>
+                        <td>{{ a[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Déposer un Avis</h2>
+            <form action="/avis" method="post">
+                <div>
+                    <label>Réservation</label>
+                    <select name="id_reservation" required>
+                        {% for r in reservations %}
+                        <option value="{{ r[0] }}">{{ r[1] }} - {{ r[2] }} ({{ r[3] }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label>Note (1 à 5)</label>
+                    <input type="number" name="note" min="1" max="5" value="5" required>
+                </div>
+                <div style="grid-column: span 2;">
+                    <label>Commentaire</label>
+                    <textarea name="commentaire" rows="2" placeholder="Votre retour sur la session..."></textarea>
+                </div>
+                <button type="submit">Enregistrer l'avis</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
